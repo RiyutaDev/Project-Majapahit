@@ -1,8 +1,20 @@
-<?php
+// ======================
+// PUBLIC ROUTES (tanpa login)
+// ======================
+$routes->get('/register', 'Auth::register');
+$routes->post('/register', 'Auth::saveRegister');
 
-use CodeIgniter\Router\RouteCollection;
+$routes->get('/login', 'Auth::login');
+$routes->post('/login', 'Auth::processLogin');
 
-/**
- * @var RouteCollection $routes
- */
-$routes->get('/', 'Home::index');
+
+// ======================
+// PROTECTED ROUTES (wajib login)
+// ======================
+$routes->group('', ['filter' => 'auth'], function($routes) {
+
+    $routes->get('/dashboard', 'Dashboard::index');
+    $routes->get('/profile', 'User::profile');
+    $routes->get('/logout', 'Auth::logout');
+
+});
